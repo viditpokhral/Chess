@@ -4,6 +4,8 @@ import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
 import com.chess.engine.board.BoardUtils;
 import com.chess.engine.board.Move;
+import com.chess.engine.board.Move.AttackMove;
+import com.chess.engine.board.Move.MajorMove;
 import com.chess.engine.board.Tiles;
 import com.google.common.collect.ImmutableList;
 
@@ -20,7 +22,7 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public Collection<Move> calculateLegalMove(Board board) {
+    public Collection<Move> calculateLegalMove(final Board board) {
         final List<Move> legalMove = new ArrayList<>();
         for (final int candidateCoordinatesOffset : CANDIDATE_MOVE_VECTOR_COORDINATES) {
             int candidateDestinationCoordinate = this.piecePosition;
@@ -33,12 +35,12 @@ public class Bishop extends Piece {
                 if (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
                     final Tiles candidateDestinationTile = board.getTile(candidateDestinationCoordinate);
                     if (!candidateDestinationTile.isTileOccupied()) {
-                        legalMove.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
+                        legalMove.add(new MajorMove(board, this, candidateDestinationCoordinate));
                     } else {
                         final Piece pieceAtDestination = candidateDestinationTile.getPiece();
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
                         if (this.pieceAlliance != pieceAlliance)
-                            legalMove.add(new Move.AttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
+                            legalMove.add(new AttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
                     }
                     break;
                 }
