@@ -16,7 +16,7 @@ import java.util.List;
 public class Knight extends Piece
 {
     private final static int[] CANDIDATE_MOVE_COORDINATES = {-17,-15,-10,-6,6,10,15,17}; // this are the coordinates where knight can move to
-    protected Knight(final int piecePosition, final Alliance pieceAlliance) {
+    public Knight(final Alliance pieceAlliance, final int piecePosition) {
         super(piecePosition, pieceAlliance);
     }
     @Override
@@ -43,6 +43,11 @@ public class Knight extends Piece
         }
          return ImmutableList.copyOf(legalMove);
     }
+    @Override
+    public String toString(){
+        return PieceType.KNIGHT.toString();
+    }
+
     private static boolean isFirstColumn(final int currentPosition,final int candidateOffset){
         return BoardUtils.FIRST_COLUMN[currentPosition] &&
                 (candidateOffset == -17 || candidateOffset == -10 || candidateOffset == 6 || candidateOffset == 15);

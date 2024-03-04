@@ -31,6 +31,11 @@ public abstract class Tiles {   // Abstract class to represent tiles
         private EmptyTile(final int tileCoordinate) {   // Constructor for empty tile
             super(tileCoordinate);  // Call the constructor of the parent class
         }
+
+        @Override
+        public String toString(){
+            return "-";
+        }
         @Override
         public boolean isTileOccupied() {   // Overriding abstract methods to return false
             return false;
@@ -45,6 +50,11 @@ public abstract class Tiles {   // Abstract class to represent tiles
         private OccupiedTile(final int tileCoordinate, final Piece pieceOnTile) {  // Constructor for occupied tile
             super(tileCoordinate);  // Call the constructor of the parent class
             this.pieceOnTile = pieceOnTile; // Set the piece on the tile
+        }
+        @Override
+        public String toString(){
+            return getPiece().getPieceAlliance().isBlack() ? getPiece().toString().toLowerCase() :
+                   getPiece().toString();
         }
         @Override
         public boolean isTileOccupied() {   // Overriding abstract methods to return true

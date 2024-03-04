@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Queen extends Piece {
     private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = {-9, -8, -7, -1, 1, 7, 8, 9};
-    protected Queen(int piecePosition, Alliance pieceAlliance) {
+    public Queen(final Alliance pieceAlliance,  final int piecePosition) {
         super(piecePosition, pieceAlliance);
     }
 
@@ -44,6 +44,11 @@ public class Queen extends Piece {
         }
         return ImmutableList.copyOf(legalMove);
     }
+    @Override
+    public String toString(){
+        return PieceType.QUEEN.toString();
+    }
+
 
     private static boolean isFirstColumn(final int currentPosition, final int candidateOffset) {
         return BoardUtils.FIRST_COLUMN[currentPosition] &&
