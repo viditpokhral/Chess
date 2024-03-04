@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Pawn extends Piece{
     private final static int[] CANDIDATE_MOVE_COORDINATE = {7, 8, 9};
-    protected Pawn(int piecePosition, Alliance pieceAlliance) {
+    protected Pawn(final int piecePosition, final Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
 
@@ -26,12 +26,18 @@ public class Pawn extends Piece{
                 continue;
             }
             if (currentCandidateOffset == 8 && !board.getTile(candidateDestinationCoordinate).isTileOccupied()){
-                // TODO more work here
+                // TODO more work here (deal with promotions)
                 legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
+            } else if (currentCandidateOffset == 16 && this.isFirstMove() &&
+                    (BoardUtils.SECOND_ROW[this.piecePosition] && this.getPieceAlliance().isBlack()) ||
+                    (BoardUtils.SEVENTH_ROW[this.piecePosition] && this.getPieceAlliance().isWhite())) {
+                final int behindCandidateDestination = this.piecePosition + (this.pieceAlliance.getDirection() * 8);
+                if (!board.getTile(behindCandidateDestination).isTileOccupied() &&
+                        !board.getTile(candidateDestinationCoordinate).isTileOccupied()){
+                    legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
+                }
             }
         }
-
-
         return legalMoves;
     }
 }
