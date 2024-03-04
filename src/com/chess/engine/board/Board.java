@@ -39,11 +39,8 @@ public class Board {
 
     private Collection<Move> calculateLegalMoves(final Collection<Piece> pieces) {
         final List<Move> legalMoves = new ArrayList<>();
-
         for (final Piece piece : pieces){
-
             legalMoves.addAll(piece.calculateLegalMove(this));
-
         }
         return ImmutableList.copyOf(legalMoves);
     }
@@ -69,7 +66,7 @@ public class Board {
         for (int i = 0; i < BoardUtils.NUM_TILES; i++) {
             tiles[i] = Tiles.createTile(i, builder.boardConfig.get(i));
         }
-        return ImmutableList.copyOf(gameBoard);
+        return ImmutableList.copyOf(tiles);
     }
 
 

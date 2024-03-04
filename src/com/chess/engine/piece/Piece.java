@@ -30,12 +30,12 @@ public abstract class Piece {
     }
     public enum PieceType{
 
-        PAWN("PAWN"),
-        KNIGHT("KNIGHT"),
-        BISHOP("BISHOP"),
-        ROOK("ROOK"),
-        QUEEN("QUEEN"),
-        KING("KING");
+        PAWN("P"),
+        KNIGHT("K"),
+        BISHOP("B"),
+        ROOK("R"),
+        QUEEN("Q"),
+        KING("K");
 
 
 
