@@ -1,5 +1,6 @@
 package com.chess.engine.player;
 
+import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
 import com.chess.engine.board.Move;
 import com.chess.engine.piece.King;
@@ -29,5 +30,26 @@ public abstract class Player {
         }
         throw new RuntimeException("It should not go there! Not a valid board");
     }
+    public boolean isMoveLegal(final Move move){
+        return this.legalMove.contains(move);
+    }
+    //TODO more here
+    public boolean isInCheck(){
+        return false;
+    }
+    public boolean isInCheckMate(){
+        return false;
+    }
+    public boolean isInStaleMate(){
+        return false;
+    }
+    public boolean isCastled(){
+        return false;
+    }
+    public MoveTransition makeMove(final Move move){
+        return null;
+    }
     public abstract Collection<Piece> getActivePieces();
+    public abstract Alliance getAlliance();
+    public abstract Player getOpponents();
 }
