@@ -18,7 +18,7 @@ public class King extends Piece{
     }
 
     @Override
-    public Collection<Move> calculateLegalMove(Board board) {
+    public Collection<Move> calculateLegalMove(final Board board) {
         final List<Move> legalMoves = new ArrayList<>();
         for(final int currentCandidateOffset : CANDIDATE_MOVE_COORDINATE){
             final int candidateDestinationCoordinates = this.piecePosition + currentCandidateOffset;
@@ -41,6 +41,11 @@ public class King extends Piece{
         }
         return ImmutableList.copyOf(legalMoves);
     }
+    @Override
+    public King movePiece(final Move move) {
+        return new King(move.getMovedPiece().getPieceAlliance(), move.getDestinationCoordinate());
+    }
+
     @Override
     public String toString(){
         return PieceType.KING.toString();

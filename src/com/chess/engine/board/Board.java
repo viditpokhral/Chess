@@ -6,6 +6,7 @@ import com.chess.engine.player.BlackPlayer;
 import com.chess.engine.player.Player;
 import com.chess.engine.player.WhitePlayer;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 
 import java.util.*;
 
@@ -32,7 +33,7 @@ public class Board {
 
         this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
         this.blackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
-        this.currentPlayer = null;
+        this.currentPlayer = builder.nextMoveMaker.choosePlayer(this.whitePlayer, this.blackPlayer);
 
     }
 
@@ -140,14 +141,24 @@ public class Board {
         return builder.build();
     }
 
-    public static class Builder{
+    public Iterable<Move> getAllLegalMoves(){
+        return Iterables.unmodifiableIterable(Iterables.concat(this.whitePlayer.getLegalMoves(),
+                                                               this.blackPlayer.getLegalMoves()));
+        // * COULD HAVE BEEN WRITTEN LIKE THIS  ======>>>>
+        // *         List<Move> allLegalMoves = new ArrayList<>();
+        // *         allLegalMoves.addAll(this.whitePlayer.getLegalMoves());
+        // *         allLegalMoves.addAll(this.blackPlayer.getLegalMoves());
+        // *         return Collections.unmodifiableList(allLegalMoves);
+    }
 
+
+
+    public static class Builder{
         Map<Integer, Piece> boardConfig;
         Alliance nextMoveMaker;
-
+        Pawn enPassantPawn;
         public Builder(){
             this.boardConfig = new HashMap<>();
-
         }
         public Builder setPiece(final Piece piece){
             this.boardConfig.put(piece.getPiecePosition(), piece);
@@ -157,9 +168,12 @@ public class Board {
             this.nextMoveMaker = nextMoveMaker;
             return this;
         }
-
         public Board build() {
             return new Board(this);
+        }
+
+        public void setEnPassant(Pawn enPassantPawn) {
+            this.enPassantPawn = enPassantPawn;
         }
     }
 }
