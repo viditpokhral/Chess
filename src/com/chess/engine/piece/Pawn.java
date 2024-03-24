@@ -59,7 +59,6 @@ public class Pawn extends Piece{
                         legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
                     }
                 }
-
             }
         }
         return ImmutableList.copyOf(legalMoves);
@@ -73,5 +72,4 @@ public class Pawn extends Piece{
     public String toString(){
         return PieceType.PAWN.toString();
     }
-
 }

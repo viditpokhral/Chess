@@ -57,18 +57,24 @@ public abstract class Piece {
     public abstract Collection<Move> calculateLegalMove(final Board board);
     public abstract Piece movePiece(Move move);
 
-    protected boolean isFirstMove() {
+    public boolean isFirstMove() {
         return this.isFirstMove;
     }
 
     public Integer getPiecePosition() {
         return this.piecePosition;
     }
+    
     public enum PieceType{
 
         PAWN("P") {
             @Override
             public boolean isKing() {
+                return false;
+            }
+
+            @Override
+            public boolean isRook() {
                 return false;
             }
         },
@@ -77,10 +83,20 @@ public abstract class Piece {
             public boolean isKing() {
                 return false;
             }
+
+            @Override
+            public boolean isRook() {
+                return false;
+            }
         },
         BISHOP("B") {
             @Override
             public boolean isKing() {
+                return false;
+            }
+
+            @Override
+            public boolean isRook() {
                 return false;
             }
         },
@@ -89,10 +105,20 @@ public abstract class Piece {
             public boolean isKing() {
                 return false;
             }
+
+            @Override
+            public boolean isRook() {
+                return true;
+            }
         },
         QUEEN("Q") {
             @Override
             public boolean isKing() {
+                return false;
+            }
+
+            @Override
+            public boolean isRook() {
                 return false;
             }
         },
@@ -100,6 +126,11 @@ public abstract class Piece {
             @Override
             public boolean isKing() {
                 return true;
+            }
+
+            @Override
+            public boolean isRook() {
+                return false;
             }
         };
 
@@ -116,5 +147,8 @@ public abstract class Piece {
         }
 
         public abstract boolean isKing();
+
+        public abstract boolean isRook();
+
     };
 }
