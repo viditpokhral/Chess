@@ -27,6 +27,9 @@ public abstract class Tiles {   // Abstract class to represent tiles
     }
     public abstract boolean isTileOccupied();   // Abstract methods to check if tile is occupied and to get the piece on the tile
     public abstract Piece getPiece();        // Abstract methods to check if tile is occupied and to get the piece on the tile
+    public int getTileCoordinate(){
+        return this.tileCoordinate;
+    }
     public static final class EmptyTile extends Tiles { // Empty tile class to represent empty tiles
         private EmptyTile(final int tileCoordinate) {   // Constructor for empty tile
             super(tileCoordinate);  // Call the constructor of the parent class
