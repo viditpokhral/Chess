@@ -1,5 +1,5 @@
 package com.chess.gui;
-
+// can also use javafx
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,18 +7,19 @@ import java.awt.event.ActionListener;
 
 public class Table {
     private final JFrame gameFrame;
-    private static Dimension OUTER_FRAME_DIMENSION = new Dimension(600,600);
+    private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(600,600);
     public Table(){
         this.gameFrame = new JFrame("JChess");  // Title of the frame
-        final JMenuBar tableMenuBar = new JMenuBar();
-        populateMenuBar(tableMenuBar);
+        final JMenuBar tableMenuBar = createTableMenuBar();
         this.gameFrame.setJMenuBar(tableMenuBar);   // associate tableMenuBar
         this.gameFrame.setSize(OUTER_FRAME_DIMENSION);  // Give dimensions to the frame
         this.gameFrame.setVisible(true);    // Make the frame visible
     }
 
-    private void populateMenuBar(final JMenuBar tableMenuBar) {
-        tableMenuBar.add(createFileMenu());
+    private JMenuBar createTableMenuBar() {
+        final JMenuBar tableMenuBar = new JMenuBar();
+         tableMenuBar.add(createFileMenu());
+         return tableMenuBar;
     }
 
     private JMenu createFileMenu() {
