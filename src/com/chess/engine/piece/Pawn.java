@@ -6,7 +6,6 @@ import com.chess.engine.board.BoardUtils;
 import com.chess.engine.board.Move;
 import com.google.common.collect.ImmutableList;
 
-import javax.annotation.concurrent.Immutable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -31,8 +30,8 @@ public class Pawn extends Piece{
                 // TODO more work here (deal with promotions)!!!!!!!!!!
                 legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
             } else if (currentCandidateOffset == 16 && this.isFirstMove() &&
-                    (BoardUtils.SECOND_ROW[this.piecePosition] && this.pieceAlliance.isBlack()) ||
-                    (BoardUtils.SEVENTH_ROW[this.piecePosition] && this.pieceAlliance.isWhite())) {
+                    (BoardUtils.SEVENTH_RANK[this.piecePosition] && this.pieceAlliance.isBlack()) ||
+                    (BoardUtils.SECOND_RANK[this.piecePosition] && this.pieceAlliance.isWhite())) {
                 final int behindCandidateDestination = this.piecePosition + (this.pieceAlliance.getDirection() * 8);
                 if (!board.getTile(behindCandidateDestination).isTileOccupied() &&
                         !board.getTile(candidateDestinationCoordinate).isTileOccupied()){
