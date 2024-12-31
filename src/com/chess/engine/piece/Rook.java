@@ -9,13 +9,14 @@ import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Rook extends Piece {
 
     private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = {-8, -1, 1, 8};
 
-    public Rook(final Alliance pieceAlliance, final int piecePosition) {
+    public Rook(final int piecePosition,final Alliance pieceAlliance) {
         super(PieceType.ROOK, piecePosition, pieceAlliance, true);
     }
 
@@ -25,7 +26,7 @@ public class Rook extends Piece {
 
     @Override
     public Collection<Move> calculateLegalMove(final Board board) {
-        final List<Move> legalMove = new ArrayList<>();
+        final List<Move> legalMove = new ArrayList<Move>();
         for (final int candidateCoordinatesOffset : CANDIDATE_MOVE_VECTOR_COORDINATES) {
             int candidateDestinationCoordinate = this.piecePosition;
             while (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
@@ -33,7 +34,7 @@ public class Rook extends Piece {
                 if (isFirstColumn(candidateDestinationCoordinate, candidateCoordinatesOffset)||
                         isEightColumn(candidateDestinationCoordinate, candidateCoordinatesOffset)) break;
 
-                candidateDestinationCoordinate = candidateCoordinatesOffset;
+                candidateDestinationCoordinate += candidateCoordinatesOffset;
                 if (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
                     final Tiles candidateDestinationTile = board.getTile(candidateDestinationCoordinate);
                     if (!candidateDestinationTile.isTileOccupied()) {
@@ -43,16 +44,17 @@ public class Rook extends Piece {
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
                         if (this.pieceAlliance != pieceAlliance)
                             legalMove.add(new Move.AttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
+                        break;
                     }
-                    break;
+
                 }
             }
         }
-        return ImmutableList.copyOf(legalMove);
+        return Collections.unmodifiableList(legalMove);
     }
     @Override
     public Rook movePiece(final Move move) {
-        return new Rook(move.getMovedPiece().getPieceAlliance(), move.getDestinationCoordinate());
+        return new Rook( move.getMovedPiece().getPieceAlliance(),move.getDestinationCoordinate(),false);
     }
 
     @Override

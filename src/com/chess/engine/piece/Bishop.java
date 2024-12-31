@@ -11,13 +11,14 @@ import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Bishop extends Piece {
 
     private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = {-9, -7, 7, 9};
 
-    public Bishop(final Alliance pieceAlliance, final int piecePosition) {
+    public Bishop( final int piecePosition,final Alliance pieceAlliance) {
         super(PieceType.BISHOP, piecePosition, pieceAlliance, true);
     }
 
@@ -45,17 +46,18 @@ public class Bishop extends Piece {
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
                         if (this.pieceAlliance != pieceAlliance)
                             legalMove.add(new AttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
+                        break;
                     }
-                    break;
+
                 }
             }
         }
-        return ImmutableList.copyOf(legalMove);
+        return Collections.unmodifiableList(legalMove);
     }
 
     @Override
     public Bishop movePiece(final Move move) {
-        return new Bishop(move.getMovedPiece().getPieceAlliance(), move.getDestinationCoordinate());
+        return new Bishop(move.getDestinationCoordinate(), move.getMovedPiece().getPieceAlliance());
     }
 
     @Override

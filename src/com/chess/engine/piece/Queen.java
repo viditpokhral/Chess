@@ -9,16 +9,18 @@ import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Queen extends Piece {
     private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = {-9, -8, -7, -1, 1, 7, 8, 9};
-    public Queen(final Alliance pieceAlliance,  final int piecePosition) {
+    public Queen(  final int piecePosition,final Alliance pieceAlliance) {
         super(PieceType.QUEEN, piecePosition, pieceAlliance, true);
     }
     public Queen(final Alliance pieceAlliance,  final int piecePosition, final boolean isFirstMove) {
         super(PieceType.QUEEN, piecePosition, pieceAlliance, isFirstMove);
     }
+
 
     @Override
     public Collection<Move> calculateLegalMove(final Board board) {
@@ -30,7 +32,7 @@ public class Queen extends Piece {
                 if (isFirstColumn(candidateDestinationCoordinate, candidateCoordinatesOffset)||
                         isEightColumn(candidateDestinationCoordinate, candidateCoordinatesOffset)) break;
 
-                candidateDestinationCoordinate = candidateCoordinatesOffset;
+                candidateDestinationCoordinate += candidateCoordinatesOffset;
                 if (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
                     final Tiles candidateDestinationTile = board.getTile(candidateDestinationCoordinate);
                     if (!candidateDestinationTile.isTileOccupied()) {
@@ -40,16 +42,17 @@ public class Queen extends Piece {
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
                         if (this.pieceAlliance != pieceAlliance)
                             legalMove.add(new Move.AttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
+                        break;
                     }
-                    break;
+
                 }
             }
         }
-        return ImmutableList.copyOf(legalMove);
+        return Collections.unmodifiableList(legalMove);
     }
     @Override
     public Queen movePiece(final Move move) {
-        return new Queen(move.getMovedPiece().getPieceAlliance(), move.getDestinationCoordinate());
+        return new Queen(move.getDestinationCoordinate(), move.getMovedPiece().getPieceAlliance());
     }
 
     @Override

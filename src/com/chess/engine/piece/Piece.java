@@ -21,7 +21,6 @@ public abstract class Piece {
         this.pieceAlliance = pieceAlliance;
         this.cachedHashCode = computeHashCode();
         this.isFirstMove = isFirstMove;
-//        this.isFirstMove = true;
     }
 
     private int computeHashCode() {
@@ -41,8 +40,8 @@ public abstract class Piece {
             return false;
         }
         final Piece otherPiece = (Piece) other;
-        return piecePosition == otherPiece.getPiecePosition() && pieceType == otherPiece.getPieceType() &&
-                pieceAlliance == otherPiece.getPieceAlliance() && isFirstMove == otherPiece.isFirstMove();
+        return this.piecePosition == otherPiece.getPiecePosition() && this.pieceType == otherPiece.getPieceType() &&
+                this.pieceAlliance == otherPiece.getPieceAlliance() && this.isFirstMove == otherPiece.isFirstMove();
     }
 
     @Override
@@ -127,7 +126,7 @@ public abstract class Piece {
                 return false;
             }
         },
-        KING("K",1000) {
+        KING("K",10000) {
             @Override
             public boolean isKing() {
                 return true;

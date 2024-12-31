@@ -11,12 +11,13 @@ import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Knight extends Piece
 {
-    private final static int[] CANDIDATE_MOVE_COORDINATES = {-17,-15,-10,-6,6,10,15,17}; // this are the coordinates where knight can move to
-    public Knight(final Alliance pieceAlliance, final int piecePosition) {
+    private final static int[] CANDIDATE_MOVE_COORDINATES = {-17,-15,-10,-6,6,10,15,17}; // these are the coordinates where knight can move to
+    public Knight( final int piecePosition,final Alliance pieceAlliance) {
         super(PieceType.KNIGHT, piecePosition, pieceAlliance, true);
     }
     public Knight(final Alliance pieceAlliance, final int piecePosition, final boolean isFirstMove) {
@@ -44,11 +45,11 @@ public class Knight extends Piece
                 }
             }
         }
-         return ImmutableList.copyOf(legalMove);
+         return Collections.unmodifiableList(legalMove);
     }
     @Override
     public Knight movePiece(final Move move) {
-        return new Knight(move.getMovedPiece().getPieceAlliance(), move.getDestinationCoordinate());
+        return new Knight( move.getDestinationCoordinate(),move.getMovedPiece().getPieceAlliance()  );
     }
 
     @Override

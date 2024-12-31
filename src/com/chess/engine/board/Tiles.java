@@ -15,7 +15,7 @@ public abstract class Tiles {   // Abstract class to represent tiles
         for (int i = 0; i < BoardUtils.NUM_TILES; i++) {
             emptyTileMap.put(i, new EmptyTile(i));
         }
-        return ImmutableMap.copyOf(emptyTileMap);// I want the immutable map(it is a container)
+        return Collections.unmodifiableMap(emptyTileMap);// I want the immutable map(it is a container)
         // ImmutableMap is in guava(google) library
         //return Collections.unmodifiableMap(emptyTileMap); // could also be used
     }
@@ -56,8 +56,8 @@ public abstract class Tiles {   // Abstract class to represent tiles
         }
         @Override
         public String toString(){
-            return getPiece().getPieceAlliance().isBlack() ? getPiece().toString().toLowerCase() :
-                   getPiece().toString();
+            return this.getPiece().getPieceAlliance().isBlack() ? this.getPiece().toString().toLowerCase() :
+                   this.getPiece().toString();
         }
         @Override
         public boolean isTileOccupied() {   // Overriding abstract methods to return true
