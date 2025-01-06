@@ -151,6 +151,10 @@ public abstract class Move {
             final AttackMove otherAttackMove = (AttackMove) other;
             return super.equals(otherAttackMove) && getAttackedPiece().equals(otherAttackMove.getAttackedPiece());
         }
+        @Override
+        public String toString() {
+            return movedPiece.getPieceType().toString() + "x" + BoardUtils.getPositionAtCoordinate(this.destinationCoordinate);
+        }
 
         @Override
         public Board execute() {

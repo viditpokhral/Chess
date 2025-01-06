@@ -7,6 +7,16 @@ public class MoveTransition {
     private final Board transitionBoard;
     private final Move move;
     private final MoveStatus moveStatus;
+    private final Board toBoard;
+
+
+    public MoveTransition(final Board transitionBoard, final Board toBoard, final Move move, final MoveStatus moveStatus) {
+        this.transitionBoard = transitionBoard;
+        this.toBoard = toBoard;
+        this.move = move;
+        this.moveStatus = moveStatus;
+    }
+
 
     public MoveTransition(final Board transitionBoard,
                           final Move move,
@@ -14,6 +24,10 @@ public class MoveTransition {
         this.transitionBoard = transitionBoard;
         this.move = move;
         this.moveStatus = moveStatus;
+        this.toBoard = null;
+    }
+    public Board getToBoard() {
+        return this.toBoard;
     }
     public MoveStatus getMoveStatus(){
         return this.moveStatus;

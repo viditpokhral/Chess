@@ -10,6 +10,7 @@ import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static com.chess.engine.board.Move.*;
@@ -32,7 +33,7 @@ public class BlackPlayer extends Player{
 
     @Override
     public Player getOpponent() {
-        return this.board.blackPlayer();
+        return this.board.whitePlayer();
     }
 
     @Override
@@ -61,10 +62,10 @@ public class BlackPlayer extends Player{
                     !this.board.getTile(2).isTileOccupied() &&
                     !this.board.getTile(3).isTileOccupied()){
                 final Tiles rookTile = this.board.getTile(0); // Queen side rook
-                if (rookTile.isTileOccupied() && rookTile.getPiece().isFirstMove()
-                && Player.calculateAttacksOnTile(2, opponentLegals).isEmpty()
-                && Player.calculateAttacksOnTile(3, opponentLegals).isEmpty()
-                && rookTile.getPiece().getPieceType().isRook()){
+                if (rookTile.isTileOccupied() && rookTile.getPiece().isFirstMove())
+                    if(Player.calculateAttacksOnTile(2, opponentLegals).isEmpty()
+                    && Player.calculateAttacksOnTile(3, opponentLegals).isEmpty()
+                    && rookTile.getPiece().getPieceType().isRook()){
                         kingCastles.add(new QueenSideCastleMove(this.board,
                                                                 this.playerKing,
                                                                 2,
@@ -74,6 +75,10 @@ public class BlackPlayer extends Player{
                 }
             }
         }
-        return ImmutableList.copyOf(kingCastles);
+        return Collections.unmodifiableList(kingCastles);
+    }
+    @Override
+    public String toString() {
+        return "Black";
     }
 }

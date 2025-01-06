@@ -10,6 +10,7 @@ import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static com.chess.engine.board.Move.*;
@@ -33,7 +34,7 @@ public class WhitePlayer extends Player{
 
     @Override
     public Player getOpponent() {
-        return this.board.whitePlayer();
+        return this.board.blackPlayer();
     }
 
     @Override
@@ -54,7 +55,7 @@ public class WhitePlayer extends Player{
                                                                     62,
                                                                     (Rook) rookTile.getPiece(),
                                                                     rookTile.getTileCoordinate(),
-                                                                    59));
+                                                                    61));
                     }
                 }
             }
@@ -62,8 +63,8 @@ public class WhitePlayer extends Player{
                     !this.board.getTile(58).isTileOccupied() &&
                     !this.board.getTile(57).isTileOccupied()){
                 final Tiles rookTile = this.board.getTile(56); // Queen side rook
-                if (rookTile.isTileOccupied() && rookTile.getPiece().isFirstMove()
-                        && Player.calculateAttacksOnTile(58, opponentLegals).isEmpty()
+                if (rookTile.isTileOccupied() && rookTile.getPiece().isFirstMove())
+                        if(Player.calculateAttacksOnTile(58, opponentLegals).isEmpty()
                         && Player.calculateAttacksOnTile(59, opponentLegals).isEmpty()
                         && rookTile.getPiece().getPieceType().isRook()){
                         kingCastles.add(new QueenSideCastleMove(this.board,
@@ -74,6 +75,10 @@ public class WhitePlayer extends Player{
                 }
             }
         }
-        return ImmutableList.copyOf(kingCastles);
+        return Collections.unmodifiableList(kingCastles);
+    }
+    @Override
+    public String toString() {
+        return "White";
     }
 }

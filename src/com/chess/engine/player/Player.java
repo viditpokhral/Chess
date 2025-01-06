@@ -10,6 +10,7 @@ import com.google.common.collect.Iterables;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class Player {
@@ -19,14 +20,14 @@ public abstract class Player {
     private final boolean isInCheck;
 
     Player(final Board board,
-           final Collection<Move> legalMove,
+           final Collection<Move> playerLegals,
            final Collection<Move> opponentMoves){
 
         this.board = board;
         this.playerKing = establishKing();
-        this.legalMove = ImmutableList.copyOf(Iterables.concat(legalMove,calculateKingCastles(legalMove,opponentMoves)));
-        this.isInCheck = !Player.calculateAttacksOnTile(this.playerKing.getPiecePosition(),
-                                                            opponentMoves).isEmpty();
+        this.isInCheck = !Player.calculateAttacksOnTile(this.playerKing.getPiecePosition(), opponentMoves).isEmpty();
+        playerLegals.addAll(calculateKingCastles(playerLegals, opponentMoves));
+        this.legalMove = Collections.unmodifiableCollection(playerLegals);
     }
 
     public King getPlayerKing(){
@@ -35,14 +36,14 @@ public abstract class Player {
     public Collection<Move> getLegalMoves(){
         return this.legalMove;
     }
-    protected static Collection<Move> calculateAttacksOnTile(Integer piecePosition, Collection<Move> moves) {
+    protected static Collection<Move> calculateAttacksOnTile(int piecePosition, Collection<Move> moves) {
         final List<Move> attackMoves = new ArrayList<>();
         for (final Move move : moves) {
             if (piecePosition == move.getDestinationCoordinate()) {
                 attackMoves.add(move);
             }
         }
-        return ImmutableList.copyOf(attackMoves);
+        return Collections.unmodifiableList(attackMoves);
     }
 
     private King establishKing() {
@@ -82,7 +83,9 @@ public abstract class Player {
         if (!isMoveLegal(move)){
             return new MoveTransition(this.board, move, MoveStatus.ILLEGAL_MOVE);
         }
+        System.out.println("Player: making move");
         final Board transitionBoard = move.execute();
+        System.out.println("Player move executed");
         final Collection<Move> kingAttacks =
                 calculateAttacksOnTile(
                         transitionBoard.currentPlayer().getOpponent().getPlayerKing().getPiecePosition(),
@@ -91,6 +94,9 @@ public abstract class Player {
             return new MoveTransition(this.board, move, MoveStatus.LEAVES_PLAYER_IN_CHECK);
         }
         return new MoveTransition(transitionBoard, move, MoveStatus.DONE);
+    }
+    public MoveTransition unMakeMove(final Move move) {
+        return new MoveTransition(this.board, move.undo(), move, MoveStatus.DONE);
     }
 
     public abstract Collection<Piece> getActivePieces();
